@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محلل فجوات الرحلات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-5">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
+        <h1 class="text-2xl font-bold text-center mb-6 text-blue-800">📊 فجوات الرحلات - مطار الملك عبدالعزيز</h1>
+        
+        <div class="flex justify-between mb-4 text-sm bg-blue-50 p-3 rounded">
+            <span>📅 التاريخ: <b>{{ date }}</b></span>
+            <span>✈️ الرحلات المنتظرة: <b>{{ total }}</b></span>
+        </div>
+
+        <h2 class="font-bold mb-3 border-r-4 border-orange-500 pr-2">⏳ الفجوات الزمنية (> 15 دقيقة)</h2>
+        <div class="space-y-2">
+            {% for gap in gaps %}
+            <div class="flex justify-between items-center p-3 bg-gray-50 border rounded-lg hover:bg-orange-50 transition">
+                <span class="font-mono text-gray-700">{{ gap.from }} ← {{ gap.to }}</span>
+                <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold">{{ gap.duration }} دقيقة</span>
+            </div>
+            {% else %}
+            <p class="text-center text-gray-500 py-4">لا توجد فجوات كبيرة حالياً.</p>
+            {% endfor %}
+        </div>
+        
+        <p class="text-[10px] text-center mt-6 text-gray-400">تحديث تلقائي من نظام المطار</p>
+    </div>
+</body>
+</html>
