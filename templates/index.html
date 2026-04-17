@@ -3,31 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محلل فجوات الرحلات</title>
+    <title>محلل الرحلات</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-5">
-    <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
-        <h1 class="text-2xl font-bold text-center mb-6 text-blue-800">📊 فجوات الرحلات - مطار الملك عبدالعزيز</h1>
+<body class="bg-slate-100 p-4">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+        <h1 class="text-xl font-bold text-center mb-6 text-slate-800">✈️ بحث فجوات الرحلات</h1>
         
-        <div class="flex justify-between mb-4 text-sm bg-blue-50 p-3 rounded">
-            <span>📅 التاريخ: <b>{{ date }}</b></span>
-            <span>✈️ الرحلات المنتظرة: <b>{{ total }}</b></span>
+        <form method="get" class="grid grid-cols-1 gap-4 mb-8 bg-slate-50 p-4 rounded-xl border">
+            <div>
+                <label class="block text-xs text-gray-500 mb-1">اختر التاريخ</label>
+                <input type="date" name="date" value="{{ date }}" class="w-full p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">من ساعة</label>
+                    <input type="time" name="start_h" value="{{ start_h }}" class="w-full p-2 border rounded-lg shadow-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">إلى ساعة</label>
+                    <input type="time" name="end_h" value="{{ end_h }}" class="w-full p-2 border rounded-lg shadow-sm">
+                </div>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 transition">تحليل البيانات</button>
+        </form>
+
+        <div class="flex justify-between items-center mb-4 px-2">
+            <span class="text-sm font-semibold text-slate-600 italic underline">الفترة: {{ start_h }} إلى {{ end_h }}</span>
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">{{ total }} رحلة</span>
         </div>
 
-        <h2 class="font-bold mb-3 border-r-4 border-orange-500 pr-2">⏳ الفجوات الزمنية (> 15 دقيقة)</h2>
-        <div class="space-y-2">
+        <div class="space-y-3">
             {% for gap in gaps %}
-            <div class="flex justify-between items-center p-3 bg-gray-50 border rounded-lg hover:bg-orange-50 transition">
-                <span class="font-mono text-gray-700">{{ gap.from }} ← {{ gap.to }}</span>
-                <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold">{{ gap.duration }} دقيقة</span>
+            <div class="flex justify-between items-center p-4 bg-white border-r-4 border-orange-500 shadow-sm rounded-lg">
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-400">فجوة بين:</span>
+                    <span class="font-mono font-bold text-slate-700">{{ gap.from }} ← {{ gap.to }}</span>
+                </div>
+                <div class="text-right">
+                    <span class="block text-xl font-black text-orange-600">{{ gap.duration }}</span>
+                    <span class="text-[10px] text-gray-400">دقيقة راحة</span>
+                </div>
             </div>
             {% else %}
-            <p class="text-center text-gray-500 py-4">لا توجد فجوات كبيرة حالياً.</p>
+            <div class="text-center py-10">
+                <p class="text-gray-400">لا توجد فجوات في هذه الفترة أو جميع الرحلات وصلت.</p>
+            </div>
             {% endfor %}
         </div>
-        
-        <p class="text-[10px] text-center mt-6 text-gray-400">تحديث تلقائي من نظام المطار</p>
     </div>
 </body>
 </html>
